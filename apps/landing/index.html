@@ -9,6 +9,8 @@
     <style>
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
         .gradient-text { background: linear-gradient(90deg, #60A5FA, #34D399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-premium { background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%); transition: all 0.3s ease; }
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); }
         html { scroll-behavior: smooth; }
     </style>
 </head>
@@ -17,10 +19,11 @@
     <nav class="sticky top-0 z-40 w-full glass shadow-2xl">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-black tracking-tighter text-white">IRE<span class="text-blue-500">NIA</span></div>
-            <div class="flex space-x-4 md:space-x-8 text-[10px] md:text-xs uppercase tracking-widest font-bold">
-                <a href="#proyecto" class="hidden sm:block hover:text-blue-400 transition py-2">Proyecto</a>
+            <div class="flex items-center space-x-4 md:space-x-8 text-[10px] md:text-xs uppercase tracking-widest font-bold">
+                <a href="https://chat.irenia.app" class="text-blue-400 hover:text-white transition hidden sm:block">Acceso Pro</a>
+                <a href="#proyecto" class="hidden md:block hover:text-blue-400 transition py-2">Metodología</a>
                 <a href="https://wa.me/tu_numero" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-500 transition flex items-center gap-2">
-                    <i class="fab fa-whatsapp"></i> <span class="hidden xs:block">WhatsApp</span>
+                    <i class="fab fa-whatsapp text-sm"></i> <span class="hidden xs:block">WhatsApp</span>
                 </a>
             </div>
         </div>
@@ -35,24 +38,27 @@
             <span class="gradient-text italic font-serif">no solo tratamos enfermedades.</span>
         </h1>
         <p class="text-base md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto px-4">
-            Cerrando el vacío emocional y diario del sistema de salud a través de IA avanzada en WhatsApp. Basado en hábitos reales para pacientes reales.
+            Cerrando el vacío emocional y diario del sistema de salud a través de IA avanzada. Basado en hábitos reales para pacientes reales.
         </p>
         
         <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <a href="#proyecto" class="w-full sm:w-auto bg-blue-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition-all active:scale-95 shadow-xl shadow-blue-900/20">
+            <a href="https://chat.irenia.app" class="w-full sm:w-auto btn-premium text-white px-10 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3">
+                <i class="fas fa-sparkles"></i> Probar Irenia Pro
+            </a>
+            <a href="#proyecto" class="w-full sm:w-auto glass text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-all">
                 Ver Metodología
             </a>
-            <p class="text-sm text-slate-500 flex items-center gap-2">
-                <i class="fas fa-shield-alt text-blue-500"></i> Información validada y controlada
-            </p>
         </div>
+        <p class="mt-8 text-sm text-slate-500 flex items-center justify-center gap-2">
+            <i class="fas fa-shield-alt text-blue-500"></i> Información validada y controlada
+        </p>
     </header>
 
-    <section id="proyecto" class="py-16 md:py-24 bg-[#1e293b]/30">
+    <section id="proyecto" class="py-16 md:py-24 bg-[#1e293b]/30 border-y border-white/5">
         <div class="max-w-6xl mx-auto px-6">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="order-2 lg:order-1">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">El acompañamiento que Ana necesita.</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight">El acompañamiento que Ana necesita.</h2>
                     <p class="text-slate-400 mb-6 text-base md:text-lg leading-relaxed italic border-l-4 border-blue-600 pl-4">
                         "Muchos pacientes salen del médico con una dieta genérica y se sienten solos al día siguiente frente al desayuno o el estrés del trabajo..."
                     </p>
@@ -68,16 +74,17 @@
                     </div>
                 </div>
                 
-                <div class="order-1 lg:order-2 glass p-8 rounded-[2rem] relative overflow-hidden group shadow-2xl">
+                <div class="order-1 lg:order-2 glass p-8 rounded-[2rem] relative overflow-hidden group shadow-2xl border-blue-500/10">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition"></div>
                     <div class="relative z-10 text-center">
                         <div class="w-16 h-16 bg-gradient-to-tr from-blue-600 to-emerald-500 rounded-2xl mx-auto mb-6 flex items-center justify-center text-2xl shadow-lg rotate-3">
                             <i class="fas fa-robot text-white"></i>
                         </div>
                         <h3 class="text-2xl font-bold text-white mb-4 tracking-tight">Irenia AI Coach</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
                             No es un bot más. Irenia aprende tus rutinas y te acompaña en WhatsApp, interviniendo en los momentos críticos donde se forman los hábitos.
                         </p>
+                        <a href="https://chat.irenia.app" class="text-blue-400 font-bold text-sm hover:underline">Explorar interfaz de voz →</a>
                     </div>
                 </div>
             </div>
@@ -85,7 +92,7 @@
     </section>
 
     <footer class="py-12 text-center opacity-60">
-        <p class="text-xs tracking-widest uppercase">Irenia — HumanHub Proyect 2026</p>
+        <p class="text-xs tracking-widest uppercase">Irenia — HumanHub Project 2026</p>
         <p class="text-[10px] mt-2 italic">Prototipo diseñado para incubación estratégica</p>
     </footer>
 
