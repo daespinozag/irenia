@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irenia Voice Chat | IA Preventiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        /* Ocultar el botón flotante original de ElevenLabs para integrarlo nosotros */
+        elevenlabs-convai::part(button) {
+            display: none;
+        }
+    </style>
+</head>
+<body class="gradient-bg text-slate-300 font-sans antialiased h-screen flex flex-col overflow-hidden">
+
+    <nav class="w-full glass border-b border-white/10 px-6 py-4 flex justify-between items-center z-50">
+        <div class="flex items-center gap-3">
+            <a href="https://irenia.app" class="text-slate-400 hover:text-white transition"><i class="fas fa-arrow-left"></i></a>
+            <div class="text-white font-bold tracking-tighter">IRE<span class="text-blue-500">NIA</span> <span class="text-[10px] ml-1 px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded-full border border-blue-500/30 uppercase">Voice Mode</span></div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold animate-pulse">Sincronizado</span>
+        </div>
+    </nav>
+
+    <main class="flex-1 flex flex-col items-center justify-center p-6 relative">
+        
+        <div class="relative group cursor-pointer">
+            <div class="absolute inset-0 bg-blue-500/20 rounded-full animate-ping group-hover:bg-blue-500/30"></div>
+            <div class="absolute inset-0 bg-emerald-500/10 rounded-full animate-pulse delay-700"></div>
+            
+            <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-full glass border-2 border-blue-500/50 flex flex-col items-center justify-center shadow-[0_0_50px_rgba(59,130,246,0.2)]">
+                
+                <elevenlabs-convai agent-id="agent_9601kcrjbe74f08bhzgewfa2fcxw"></elevenlabs-convai>
+                
+                <i class="fas fa-microphone text-4xl text-white mb-2 group-hover:scale-110 transition-transform"></i>
+                <p class="text-[10px] uppercase tracking-widest text-blue-400 font-bold">Toca para hablar</p>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center max-w-sm">
+            <h2 class="text-xl font-bold text-white mb-2 italic">"Irenia, ayúdame con mi ansiedad hoy"</h2>
+            <p class="text-sm text-slate-400">Tu coach de salud preventiva te escucha. La conversación se mantiene privada y segura.</p>
+        </div>
+
+    </main>
+
+    <footer class="p-8 flex justify-center gap-8 border-t border-white/5 glass">
+        <button class="flex flex-col items-center gap-2 group">
+            <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition">
+                <i class="fas fa-keyboard text-slate-400 group-hover:text-white"></i>
+            </div>
+            <span class="text-[10px] uppercase font-bold tracking-widest opacity-50">Texto</span>
+        </button>
+        
+        <button class="flex flex-col items-center gap-2 group">
+            <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition text-red-400">
+                <i class="fas fa-phone-slash"></i>
+            </div>
+            <span class="text-[10px] uppercase font-bold tracking-widest opacity-50">Finalizar</span>
+        </button>
+    </footer>
+
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
+</body>
+</html>
