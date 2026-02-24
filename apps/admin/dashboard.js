@@ -4,26 +4,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminContent = document.getElementById('admin-content');
     const errorMsg = document.getElementById('login-error');
 
-    // Configuración temporal (Cámbiala por algo seguro)
-    const AUTH = {
-        user: "admin",
-        pass: "Irenia2026!" 
-    };
+    // Cambia estas credenciales por las tuyas
+    const AUTH_USER = "irenia";
+    const AUTH_PASS = "irenia2026";
 
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const userInput = document.getElementById('admin-user').value;
-        const passInput = document.getElementById('admin-pass').value;
+        const user = document.getElementById('admin-user').value;
+        const pass = document.getElementById('admin-pass').value;
 
-        if (userInput === AUTH.user && passInput === AUTH.pass) {
-            // Éxito: Ocultar login y mostrar dashboard
-            loginScreen.classList.add('hidden');
-            adminContent.classList.remove('hidden');
-            console.log("Acceso concedido. Bienvenido, Admin.");
+        if (user === AUTH_USER && pass === AUTH_PASS) {
+            loginScreen.classList.add('opacity-0');
+            setTimeout(() => {
+                loginScreen.classList.add('hidden');
+                adminContent.classList.remove('hidden');
+                adminContent.classList.add('animate-in', 'fade-in', 'duration-700');
+            }, 300);
         } else {
-            // Error
             errorMsg.classList.remove('hidden');
+            errorMsg.classList.add('shake');
             document.getElementById('admin-pass').value = "";
             setTimeout(() => errorMsg.classList.add('hidden'), 3000);
         }
