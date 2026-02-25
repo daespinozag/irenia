@@ -3,48 +3,36 @@ const agentId = 'agent_9601kcrjbe74f08bhzgewfa2fcxw';
 let conversation = null;
 
 const voiceBtn = document.getElementById('voice-trigger');
-const stopBtn = document.getElementById('stop-btn');
 const sendBtn = document.getElementById('send-btn');
 const textInput = document.getElementById('text-input');
-const history = document.getElementById('conversation-history');
-const status = document.getElementById('status-text');
+const chatHistory = document.getElementById('conversation-history');
+const statusLabel = document.getElementById('status-text');
 
-function updateHistory(role, text) {
-    const p = document.createElement('p');
-    p.className = role === 'user' ? "text-blue-400 mb-2" : "text-white mb-4";
-    p.innerHTML = `<strong>${role === 'user' ? 'Tú' : 'Irenia'}:</strong> ${text}`;
-    history.appendChild(p);
-    document.getElementById('transcript-box').scrollTop = history.scrollHeight;
+function addMessage(role, text) {
+    const div = document.createElement('div');
+    div.className = role === 'user' ? "text-blue-400 font-medium" : "text-white italic";
+    div.innerHTML = `<span class="opacity-50 text-[10px] uppercase block">${role === 'user' ? 'Tú' : 'Irenia'}</span> ${text}`;
+    chatHistory.appendChild(div);
+    document.getElementById('transcript-box').scrollTop = chatHistory.scrollHeight;
 }
 
-async function startSession() {
+async function handleVoice() {
     try {
-        conversation = await ElevenLabsClient.Conversation.startSession({
-            agentId: agentId,
-            onConnect: () => {
-                status.innerText = "En línea";
-                voiceBtn.classList.add('orb-active');
-            },
-            onDisconnect: () => {
-                status.innerText = "Desconectado";
-                voiceBtn.classList.remove('orb-active');
-                conversation = null;
-            },
-            onMessage: (message) => {
-                updateHistory(message.role, message.message);
-            }
-        });
-    } catch (e) { status.innerText = "Error de conexión"; }
+        if (!conversation) {
+            statusLabel.innerText = "Conectando...";
+            conversation = await ElevenLabsClient.Conversation.startSession({
+                agentId: agentId,
+                onConnect: () => { statusLabel.innerText = "Irenia escucha..."; voiceBtn.classList.add('orb-listening'); },
+                onDisconnect: () => { statusLabel.innerText = "Motor Listo"; voiceBtn.classList.remove('orb-listening'); conversation = null; },
+                onMessage: (msg) => { addMessage(msg.role === 'user' ? 'user' : 'ai', msg.message); }
+            });
+        } else { await conversation.endSession(); }
+    } catch (err) { statusLabel.innerText = "Error de conexión"; }
 }
 
-// Enviar texto manualmente
+voiceBtn.addEventListener('click', handleVoice);
 sendBtn.addEventListener('click', () => {
     const text = textInput.value.trim();
-    if (text && conversation) {
-        conversation.sendText(text); // El SDK permite enviar texto a la sesión de voz
-        textInput.value = '';
-    }
+    if (text && conversation) { conversation.sendText(text); textInput.value = ''; }
 });
-
-voiceBtn.addEventListener('click', () => !conversation ? startSession() : conversation.endSession());
-stopBtn.addEventListener('click', () => conversation?.endSession());
+document.getElementById('stop-btn').addEventListener('click', () => { if (conversation) conversation.endSession(); });

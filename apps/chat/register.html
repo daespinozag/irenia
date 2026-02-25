@@ -1,46 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irenia | Registro Médico</title>
+    <meta charset="UTF-8"><title>Irenia | Registro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-slate-950">
-    <div class="min-h-screen flex items-center justify-center p-6">
-        <div class="max-w-md w-full bg-slate-900 border border-slate-800 p-8 rounded-[2.5rem] shadow-2xl">
-            
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-black text-white italic tracking-tighter uppercase">IRE<span class="text-blue-500">NIA</span></h1>
-                <h2 class="text-lg font-medium text-slate-400 mt-2">Crea tu perfil de salud</h2>
-            </div>
-
-            <form id="register-form" class="space-y-4">
-                <input type="text" id="full-name" placeholder="Nombre completo" 
-                    class="w-full p-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-white outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                
-                <input type="email" id="email" placeholder="Correo electrónico" required
-                    class="w-full p-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-white outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                
-                <input type="password" id="password" placeholder="Contraseña (mín. 6 caracteres)" required
-                    class="w-full p-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-white outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                
-                <button type="submit" class="w-full bg-blue-600 py-4 rounded-2xl text-white font-bold hover:bg-blue-500 shadow-lg shadow-blue-900/20 transition-all active:scale-95">
-                    Comenzar ahora
-                </button>
-            </form>
-
-            <p class="text-slate-500 text-sm text-center mt-6 font-medium">
-                ¿Ya tienes cuenta? <a href="login.html" class="text-blue-400 hover:text-blue-300 underline underline-offset-4">Inicia sesión</a>
-            </p>
+<body class="bg-slate-950 flex items-center justify-center min-h-screen p-6">
+    <div class="max-w-md w-full bg-slate-900 border border-slate-800 p-8 rounded-[2.5rem] shadow-2xl">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-black text-white italic uppercase">IRE<span class="text-blue-500">NIA</span></h1>
+            <h2 class="text-lg text-slate-400 mt-2">Crea tu cuenta médica</h2>
         </div>
+        <form id="register-form" class="space-y-4">
+            <input type="email" id="email" placeholder="Email" required class="w-full p-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-white outline-none">
+            <input type="password" id="password" placeholder="Contraseña" required class="w-full p-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-white outline-none">
+            <button type="submit" class="w-full bg-blue-600 py-4 rounded-2xl text-white font-bold transition-all">Comenzar ahora</button>
+        </form>
+        <p class="text-slate-500 text-sm text-center mt-6 italic">¿Ya tienes cuenta? <a href="login.html" class="text-blue-400 font-bold hover:underline">Inicia sesión</a></p>
     </div>
-
     <script>
-        const SUPABASE_URL = 'https://ttymwhkhwwgljuguxeia.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0eW13aGtod3dnbGp1Z3V4ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzcxMjIsImV4cCI6MjA4NzU1MzEyMn0.iLxKac2QqiVo7sGrI84bp0yAxplfPAU_qev6A7knW6k'; 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const _supabase = supabase.createClient('https://ttymwhkhwwgljuguxeia.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0eW13aGtod3dnbGp1Z3V4ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzcxMjIsImV4cCI6MjA4NzU1MzEyMn0.iLxKac2QqiVo7sGrI84bp0yAxplfPAU_qev6A7knW6k');
     </script>
     <script src="auth.js"></script>
 </body>
