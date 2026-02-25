@@ -1,17 +1,18 @@
 // apps/chat/auth.js
 
-// 1. Verificación de Sesión
+// 1. Verificación de Sesión (Guardián)
 async function checkExistingSession() {
     if (typeof _supabase !== 'undefined') {
         const { data } = await _supabase.auth.getSession();
-        if (data?.session && window.location.pathname.includes('login.html')) {
+        // Si ya hay sesión y estamos en login/register, vamos al index
+        if (data?.session && (window.location.pathname.includes('login.html') || window.location.pathname.includes('register.html'))) {
             window.location.href = "index.html";
         }
     }
 }
 checkExistingSession();
 
-// 2. Registro
+// 2. Lógica de Registro
 const registerForm = document.getElementById('register-form');
 if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {
@@ -28,13 +29,13 @@ if (registerForm) {
             alert("Error: " + error.message);
             btn.disabled = false; btn.innerText = "Comenzar ahora";
         } else {
-            alert("¡Revisa tu correo para confirmar!");
+            alert("¡Registro exitoso! Confirma tu correo para activar tu cuenta.");
             window.location.href = "login.html";
         }
     });
 }
 
-// 3. Login
+// 3. Lógica de Login
 const loginForm = document.getElementById('login-form');
 if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -48,7 +49,7 @@ if (loginForm) {
         const { error } = await _supabase.auth.signInWithPassword({ email, password });
 
         if (error) {
-            alert("Error: " + error.message);
+            alert("Acceso denegado: " + error.message);
             btn.disabled = false; btn.innerText = "INGRESAR";
         } else {
             window.location.href = "index.html";
