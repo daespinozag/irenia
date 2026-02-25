@@ -8,84 +8,73 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { background-color: #020617; color: #e2e8f0; overflow: hidden; }
+        body { background-color: #020617; color: #e2e8f0; margin: 0; overflow: hidden; }
         .glass-nav { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
         
-        /* Contenedor para centrar el widget */
-        .widget-wrapper {
+        /* Contenedor Maestro: Ocupa todo el espacio bajo el Nav */
+        .viewport-engine {
             display: flex;
             flex-direction: column;
+            height: calc(100vh - 64px); /* Restamos el alto del Navbar */
+            width: 100%;
             align-items: center;
             justify-content: center;
-            height: calc(100vh - 140px);
-            background: radial-gradient(circle at center, #1e293b 0%, #020617 70%);
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
         }
 
-        /* Estilos para forzar el tamaño del widget de ElevenLabs */
+        /* INTEGRACIÓN TOTAL: Forzamos al widget a ser la página */
         elevenlabs-convai {
-            display: block;
             width: 100% !important;
-            max-width: 600px !important; /* Lo hacemos más grande */
-            height: 500px !important;
-            margin: 0 auto;
+            height: 100% !important;
+            max-width: 100% !important; /* Elimina límites de ancho */
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Ajuste para que el widget interno se vea grande */
+        elevenlabs-convai::part(container) {
+            border-radius: 0;
+            background: transparent !important;
         }
     </style>
 </head>
 <body class="h-screen flex flex-col font-sans">
 
-    <nav class="glass-nav p-4 flex justify-between items-center z-10">
+    <nav class="glass-nav h-16 px-6 flex justify-between items-center z-50">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <i class="fas fa-microphone-alt text-white text-xl animate-pulse"></i>
+            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <i class="fas fa-microphone-alt text-white text-sm"></i>
             </div>
-            <div>
-                <h1 class="font-bold tracking-tight text-white leading-none text-lg">IRE<span class="text-blue-500">NIA</span> PRO</h1>
-                <span class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Voice Engine Activo</span>
-            </div>
+            <h1 class="font-bold tracking-tight text-white italic">IRE<span class="text-blue-500">NIA</span> PRO</h1>
         </div>
 
-        <div class="flex items-center gap-3">
-            <a href="https://irenia.app" class="text-xs font-bold text-slate-300 hover:text-white transition bg-white/5 px-4 py-2 rounded-xl border border-white/10">
-                <i class="fas fa-external-link-alt mr-2"></i>Ir a irenia.app
+        <div class="flex items-center gap-4">
+            <a href="https://irenia.app" class="text-[10px] font-bold text-slate-400 hover:text-white transition uppercase tracking-widest border border-slate-800 px-3 py-1 rounded-lg">
+                Ir a irenia.app
             </a>
-            <button id="logout-btn" class="text-slate-500 hover:text-red-400 transition-all p-2">
-                <i class="fas fa-sign-out-alt text-lg"></i>
+            <button id="logout-btn" class="text-slate-500 hover:text-red-400 transition">
+                <i class="fas fa-power-off"></i>
             </button>
         </div>
     </nav>
 
-    <main class="widget-wrapper p-6">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-black text-white mb-2 italic tracking-tighter">CONSULTA PREVENTIVA</h2>
-            <p class="text-blue-400/80 text-sm font-medium">Haz clic en el orbe para iniciar tu sesión con Irenia</p>
-        </div>
-
+    <main class="viewport-engine">
         <elevenlabs-convai agent-id="agent_9601kcrjbe74f08bhzgewfa2fcxw"></elevenlabs-convai>
-        <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+        <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
     </main>
 
-    <footer class="p-4 bg-slate-950 border-t border-white/5 text-center">
-        <div class="flex justify-center items-center gap-6 text-[11px] text-slate-500 uppercase tracking-widest font-bold">
-            <span class="flex items-center gap-2"><i class="fas fa-circle text-[6px] text-green-500"></i> Servidor Online</span>
-            <span class="flex items-center gap-2"><i class="fas fa-lock text-blue-500"></i> HIPAA Compliant</span>
-            <span class="flex items-center gap-2"><i class="fas fa-bolt text-yellow-500"></i> Low Latency</span>
-        </div>
-    </footer>
-
     <script>
-        // Configuración de Supabase (Igual que en tus otros archivos)
+        // Lógica de seguridad Supabase
         const SUPABASE_URL = 'https://ttymwhkhwwgljuguxeia.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0eW13aGtod3dnbGp1Z3V4ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzcxMjIsImV4cCI6MjA4NzU1MzEyMn0.iLxKac2QqiVo7sGrI84bp0yAxplfPAU_qev6A7knW6k'; // Asegúrate de pegar la tuya aquí
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0eW13aGtod3dnbGp1Z3V4ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzcxMjIsImV4cCI6MjA4NzU1MzEyMn0.iLxKac2QqiVo7sGrI84bp0yAxplfPAU_qev6A7knW6k'; 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Seguridad: Si no hay usuario, fuera.
         async function checkUser() {
             const { data: { user } } = await _supabase.auth.getUser();
             if (!user) window.location.href = "login.html";
         }
         checkUser();
 
-        // Salir
         document.getElementById('logout-btn').addEventListener('click', async () => {
             await _supabase.auth.signOut();
             window.location.href = "login.html";
