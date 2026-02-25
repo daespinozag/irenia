@@ -3,69 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irenia Voice Chat | IA Preventiva</title>
+    <title>Irenia Pro | IA Preventiva</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
-        /* Ocultar el botón flotante original de ElevenLabs para integrarlo nosotros */
-        elevenlabs-convai::part(button) {
-            display: none;
+        body { background-color: #020617; color: #e2e8f0; }
+        .glass-nav { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .message-ai { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.05); }
+        .message-user { background: #2563eb; color: white; }
+        
+        /* Centrar el widget de ElevenLabs */
+        elevenlabs-convai {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 50;
         }
     </style>
 </head>
-<body class="gradient-bg text-slate-300 font-sans antialiased h-screen flex flex-col overflow-hidden">
+<body class="h-screen flex flex-col font-sans">
 
-    <nav class="w-full glass border-b border-white/10 px-6 py-4 flex justify-between items-center z-50">
+    <nav class="glass-nav p-4 flex justify-between items-center z-10">
         <div class="flex items-center gap-3">
-            <a href="https://irenia.app" class="text-slate-400 hover:text-white transition"><i class="fas fa-arrow-left"></i></a>
-            <div class="text-white font-bold tracking-tighter">IRE<span class="text-blue-500">NIA</span> <span class="text-[10px] ml-1 px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded-full border border-blue-500/30 uppercase">Voice Mode</span></div>
+            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <i class="fas fa-robot text-white"></i>
+            </div>
+            <div>
+                <h1 class="font-bold tracking-tight text-white leading-none">IRE<span class="text-blue-500">NIA</span> PRO</h1>
+                <span class="text-[10px] text-blue-400 font-medium uppercase tracking-tighter">Panel de Salud</span>
+            </div>
         </div>
-        <div class="flex items-center gap-2">
-            <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold animate-pulse">Sincronizado</span>
+
+        <div class="flex items-center gap-4">
+            <a href="https://irenia.app" class="text-xs font-semibold text-slate-300 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-xl border border-white/10">
+                <i class="fas fa-external-link-alt mr-2"></i>Ir a irenia.app
+            </a>
+            
+            <button id="logout-btn" class="text-slate-500 hover:text-red-400 text-sm transition-all p-2">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
         </div>
     </nav>
 
-    <main class="flex-1 flex flex-col items-center justify-center p-6 relative">
-        
-        <div class="relative group cursor-pointer">
-            <div class="absolute inset-0 bg-blue-500/20 rounded-full animate-ping group-hover:bg-blue-500/30"></div>
-            <div class="absolute inset-0 bg-emerald-500/10 rounded-full animate-pulse delay-700"></div>
-            
-            <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-full glass border-2 border-blue-500/50 flex flex-col items-center justify-center shadow-[0_0_50px_rgba(59,130,246,0.2)]">
-                
-                <elevenlabs-convai agent-id="agent_9601kcrjbe74f08bhzgewfa2fcxw"></elevenlabs-convai>
-                
-                <i class="fas fa-microphone text-4xl text-white mb-2 group-hover:scale-110 transition-transform"></i>
-                <p class="text-[10px] uppercase tracking-widest text-blue-400 font-bold">Toca para hablar</p>
-            </div>
+    <main id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-4 md:p-8 bg-[radial-gradient(circle_at_top_right,_#0f172a,_transparent)]">
+        <div class="message-ai p-4 rounded-2xl rounded-tl-none max-w-[80%] text-sm shadow-sm">
+            Hola, soy **Irenia**. Estoy conectada a tu perfil de salud. ¿En qué puedo apoyarte hoy?
         </div>
-
-        <div class="mt-12 text-center max-w-sm">
-            <h2 class="text-xl font-bold text-white mb-2 italic">"Irenia, ayúdame con mi ansiedad hoy"</h2>
-            <p class="text-sm text-slate-400">Tu coach de salud preventiva te escucha. La conversación se mantiene privada y segura.</p>
-        </div>
-
     </main>
 
-    <footer class="p-8 flex justify-center gap-8 border-t border-white/5 glass">
-        <button class="flex flex-col items-center gap-2 group">
-            <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition">
-                <i class="fas fa-keyboard text-slate-400 group-hover:text-white"></i>
-            </div>
-            <span class="text-[10px] uppercase font-bold tracking-widest opacity-50">Texto</span>
-        </button>
-        
-        <button class="flex flex-col items-center gap-2 group">
-            <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition text-red-400">
-                <i class="fas fa-phone-slash"></i>
-            </div>
-            <span class="text-[10px] uppercase font-bold tracking-widest opacity-50">Finalizar</span>
-        </button>
+    <script src="https://elevenlabs.io/convai-widget/index.js" async></script>
+    <elevenlabs-convai agent-id="TU_AGENT_ID_AQUÍ"></elevenlabs-convai>
+
+    <footer class="p-4 bg-slate-950/80 border-t border-white/5">
+        <form id="chat-form" class="max-w-4xl mx-auto flex gap-2">
+            <input type="text" id="user-input" autocomplete="off" 
+                class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all" 
+                placeholder="Escribe tu consulta médica aquí...">
+            <button type="submit" class="bg-blue-600 w-14 h-14 rounded-2xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20 active:scale-95">
+                <i class="fas fa-paper-plane text-white"></i>
+            </button>
+        </form>
     </footer>
 
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <script>
+        // 1. Configuración de Supabase
+        const SUPABASE_URL = 'https://ttymwhkhwwgljuguxeia.supabase.co';
+        const SUPABASE_KEY = 'TU_ANON_KEY_COMPLETA_AQUI'; 
+        
+        // Inicialización global para que chat.js la vea
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // 2. El Guardián de Sesión
+        async function checkUser() {
+            const { data: { user }, error } = await _supabase.auth.getUser();
+            
+            if (error || !user) {
+                window.location.href = "login.html";
+            } else {
+                console.log("Acceso autorizado para:", user.email);
+            }
+        }
+        checkUser();
+
+        // 3. Botón de Logout
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            const { error } = await _supabase.auth.signOut();
+            if (!error) window.location.href = "login.html";
+        });
+    </script>
+
+    <script src="chat.js"></script>
 </body>
 </html>

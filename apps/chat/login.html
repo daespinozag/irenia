@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irenia | Iniciar Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background: radial-gradient(circle at bottom left, #0f172a, #020617); min-height: 100vh; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="flex items-center justify-center p-6 text-slate-200">
+    <div class="glass max-w-md w-full p-10 rounded-[2.5rem] shadow-2xl">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-black text-white italic tracking-tighter">IRE<span class="text-blue-500">NIA</span></h1>
+            <p class="text-slate-500 text-xs uppercase tracking-widest mt-2">Acceso a Consultas</p>
+        </div>
+        
+        <form id="login-form" class="space-y-5">
+            <input type="email" id="email" placeholder="Tu correo" required class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50">
+            <input type="password" id="password" placeholder="Tu contraseña" required class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-bold shadow-lg shadow-blue-600/20 transition-all active:scale-95">INGRESAR</button>
+        </form>
+        
+        <div class="mt-8 text-center text-sm">
+            <p class="text-slate-500">¿Eres nuevo? <a href="register.html" class="text-blue-400 font-bold hover:underline">Crea una cuenta</a></p>
+        </div>
+    </div>
+    <script src="auth.js"></script>
+</body>
+</html>
