@@ -4,98 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Irenia Pro | IA Preventiva</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <style>
         body { background-color: #020617; color: #e2e8f0; }
         .glass-nav { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .message-ai { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.05); }
-        .message-user { background: #2563eb; color: white; }
-        
-        /* Centrar el widget de ElevenLabs */
-        elevenlabs-convai {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 50;
-        }
+        elevenlabs-convai { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 50; }
     </style>
 </head>
 <body class="h-screen flex flex-col font-sans">
-
     <nav class="glass-nav p-4 flex justify-between items-center z-10">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <i class="fas fa-robot text-white"></i>
-            </div>
-            <div>
-                <h1 class="font-bold tracking-tight text-white leading-none">IRE<span class="text-blue-500">NIA</span> PRO</h1>
-                <span class="text-[10px] text-blue-400 font-medium uppercase tracking-tighter">Panel de Salud</span>
-            </div>
+            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center"><i class="fas fa-robot"></i></div>
+            <h1 class="font-bold text-white">IRE<span class="text-blue-500">NIA</span> PRO</h1>
         </div>
-
-        <div class="flex items-center gap-4">
-            <a href="https://irenia.app" class="text-xs font-semibold text-slate-300 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-xl border border-white/10">
-                <i class="fas fa-external-link-alt mr-2"></i>Ir a irenia.app
-            </a>
-            
-            <button id="logout-btn" class="text-slate-500 hover:text-red-400 text-sm transition-all p-2">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
+        <div class="flex gap-4">
+            <a href="https://irenia.app" class="text-xs bg-white/5 px-4 py-2 rounded-xl border border-white/10 hover:bg-white/10 transition">Ir a irenia.app</a>
+            <button id="logout-btn" class="text-slate-500 hover:text-red-400"><i class="fas fa-sign-out-alt"></i></button>
         </div>
     </nav>
 
-    <main id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-4 md:p-8 bg-[radial-gradient(circle_at_top_right,_#0f172a,_transparent)]">
-        <div class="message-ai p-4 rounded-2xl rounded-tl-none max-w-[80%] text-sm shadow-sm">
-            Hola, soy **Irenia**. Estoy conectada a tu perfil de salud. ¿En qué puedo apoyarte hoy?
-        </div>
-    </main>
+    <main id="chat-box" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-4"></main>
 
     <script src="https://elevenlabs.io/convai-widget/index.js" async></script>
-    <elevenlabs-convai agent-id="TU_AGENT_ID_AQUÍ"></elevenlabs-convai>
+    <elevenlabs-convai agent-id="TU_AGENT_ID"></elevenlabs-convai>
 
-    <footer class="p-4 bg-slate-950/80 border-t border-white/5">
+    <footer class="p-4 bg-slate-950/80">
         <form id="chat-form" class="max-w-4xl mx-auto flex gap-2">
-            <input type="text" id="user-input" autocomplete="off" 
-                class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all" 
-                placeholder="Escribe tu consulta médica aquí...">
-            <button type="submit" class="bg-blue-600 w-14 h-14 rounded-2xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20 active:scale-95">
-                <i class="fas fa-paper-plane text-white"></i>
-            </button>
+            <input type="text" id="user-input" class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl px-6 py-4 text-sm outline-none focus:border-blue-500" placeholder="Escribe tu consulta...">
+            <button type="submit" class="bg-blue-600 w-14 h-14 rounded-2xl hover:bg-blue-500 transition-all"><i class="fas fa-paper-plane text-white"></i></button>
         </form>
     </footer>
 
     <script>
-        // 1. Configuración de Supabase
         const SUPABASE_URL = 'https://ttymwhkhwwgljuguxeia.supabase.co';
-        const SUPABASE_KEY = 'TU_ANON_KEY_COMPLETA_AQUI'; 
-        
-        // Inicialización global para que chat.js la vea
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0eW13aGtod3dnbGp1Z3V4ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzcxMjIsImV4cCI6MjA4NzU1MzEyMn0.iLxKac2QqiVo7sGrI84bp0yAxplfPAU_qev6A7knW6k'; 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // 2. El Guardián de Sesión
         async function checkUser() {
-            const { data: { user }, error } = await _supabase.auth.getUser();
-            
-            if (error || !user) {
-                window.location.href = "login.html";
-            } else {
-                console.log("Acceso autorizado para:", user.email);
-            }
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) window.location.href = "login.html";
         }
         checkUser();
 
-        // 3. Botón de Logout
         document.getElementById('logout-btn').addEventListener('click', async () => {
-            const { error } = await _supabase.auth.signOut();
-            if (!error) window.location.href = "login.html";
+            await _supabase.auth.signOut();
+            window.location.href = "login.html";
         });
     </script>
-
     <script src="chat.js"></script>
 </body>
 </html>
