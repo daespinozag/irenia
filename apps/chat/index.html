@@ -55,16 +55,25 @@
     </footer>
 
     <script>
-        const SUPABASE_URL = 'https://ttymwhkhwwgljuguxeia.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0eW13aGtod3dnbGp1Z3V4ZWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NzcxMjIsImV4cCI6MjA4NzU1MzEyMn0.iLxKac2QqiVo7sGrI84bp0yAxplfPAU_qev6A7knW6k'; 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // 1. Configuración de conexión
+    const SUPABASE_URL = 'https://ttymwhkhwwgljuguxeia.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; 
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        document.getElementById('logout-btn').addEventListener('click', async () => {
+    // 2. Lógica de Logout simplificada
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+        try {
             await _supabase.auth.signOut();
+            // Usamos replace para limpiar el historial y evitar que el botón "atrás" rompa la app
             window.location.replace("login.html");
-        });
+        } catch (err) {
+            window.location.href = "login.html";
+        }
+    });
     </script>
+ 
     <script src="auth.js"></script>
     <script src="chat.js"></script>
-</body>
+
+    </body>
 </html>
