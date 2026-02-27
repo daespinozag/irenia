@@ -1,5 +1,22 @@
 // apps/chat/auth.js
 
+// Función para capturar parámetros de la URL
+function checkURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    const phoneParam = params.get('phone');
+    const phoneInput = document.getElementById('phone');
+    
+    if (phoneParam && phoneInput) {
+        phoneInput.value = phoneParam;
+        // Opcional: hacerlo de solo lectura si viene de WhatsApp
+        phoneInput.readOnly = true; 
+        phoneInput.classList.add('opacity-50');
+    }
+}
+
+// Ejecutar al cargar
+document.addEventListener('DOMContentLoaded', checkURLParams)
+
 async function sessionGuard() {
     // Evita errores si Supabase no ha cargado
     if (typeof _supabase === 'undefined') return;
@@ -68,11 +85,22 @@ if (registerForm) {
         const submitBtn = e.target.querySelector('button');
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        const phone = document.getElementById('phone').value; // <--- Capturamos el valor del nuevo input
 
         submitBtn.disabled = true;
         submitBtn.innerText = "Registrando...";
 
-        const { error } = await _supabase.auth.signUp({ email, password });
+        // Modificamos el signUp para incluir el teléfono en los metadatos
+        const { error } = await _supabase.auth.signUp({ 
+            email, 
+            password,
+            options: {
+                data: {
+                    phone: phone, // <--- Aquí se guarda el teléfono en Supabase Auth
+                    full_name: "" // Puedes añadir más campos si los necesitas
+                }
+            }
+        });
         
         if (error) {
             alert("Error en registro: " + error.message);
