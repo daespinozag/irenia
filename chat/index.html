@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irenia Pro | Consola de Salud</title>
+    <title>Irenia Pro | Consola</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -12,13 +12,7 @@
         .glass-nav { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
         .chat-view { height: calc(100vh - 160px); background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); }
         .orb-listening { animation: pulse-red 1.5s infinite; background: #ef4444 !important; }
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { box-shadow: 0 0 0 30px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-        #conversation-history::-webkit-scrollbar { width: 3px; }
-        #conversation-history::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 30px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
     </style>
 </head>
 <body class="h-screen flex flex-col">
@@ -31,18 +25,18 @@
     </nav>
 
     <main class="chat-view flex flex-col items-center justify-between p-6">
-        <div id="conversation-history" class="w-full max-w-2xl flex-1 overflow-y-auto mb-6 px-4 space-y-4">
+        <div id="conversation-history" class="w-full max-w-2xl flex-1 overflow-y-auto mb-6 px-4 space-y-4 flex flex-col">
             <p id="status-text" class="text-blue-500 font-bold text-[10px] uppercase tracking-[0.3em] text-center">Motor Listo</p>
         </div>
-        <div id="voice-trigger" class="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(37,99,235,0.3)] cursor-pointer hover:scale-105 transition-all">
+        <div id="voice-trigger" class="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center shadow-lg cursor-pointer transition-all">
             <i class="fas fa-microphone text-white text-3xl"></i>
         </div>
     </main>
 
     <footer class="h-24 bg-slate-950/80 border-t border-white/5 p-4 flex justify-center items-center">
         <form id="chat-form" class="max-w-4xl w-full flex gap-3">
-            <input type="text" id="text-input" placeholder="Escribe tu consulta..." class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl px-6 py-3 text-sm focus:border-blue-500 outline-none text-white">
-            <button type="submit" class="bg-blue-600 h-12 w-12 rounded-2xl flex items-center justify-center shadow-lg"><i class="fas fa-paper-plane text-white"></i></button>
+            <input type="text" id="text-input" placeholder="Escribe tu consulta..." class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl px-6 py-3 text-white outline-none focus:border-blue-500">
+            <button type="submit" class="bg-blue-600 h-12 w-12 rounded-2xl flex items-center justify-center"><i class="fas fa-paper-plane text-white"></i></button>
         </form>
     </footer>
 
