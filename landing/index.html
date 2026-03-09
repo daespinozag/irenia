@@ -11,6 +11,19 @@
         .gradient-text { background: linear-gradient(90deg, #60A5FA, #34D399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .btn-premium { background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%); transition: all 0.3s ease; }
         .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); }
+        .chat-demo { background: linear-gradient(160deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.9)); border: 1px solid rgba(148, 163, 184, 0.25); }
+        .chat-bubble { opacity: 0; transform: translateY(10px) scale(0.98); animation: chatCycle 12s infinite; }
+        .chat-user { background: rgba(59, 130, 246, 0.16); border: 1px solid rgba(59, 130, 246, 0.3); color: #dbeafe; }
+        .chat-irenia { background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.32); color: #d1fae5; }
+        .bubble-1 { animation-delay: 0s; }
+        .bubble-2 { animation-delay: 3s; }
+        .bubble-3 { animation-delay: 6s; }
+        .bubble-4 { animation-delay: 9s; }
+        @keyframes chatCycle {
+            0%, 12% { opacity: 0; transform: translateY(10px) scale(0.98); }
+            20%, 36% { opacity: 1; transform: translateY(0) scale(1); }
+            45%, 100% { opacity: 0; transform: translateY(-5px) scale(0.98); }
+        }
         html { scroll-behavior: smooth; }
     </style>
 </head>
@@ -96,9 +109,30 @@
         <p class="text-[10px] mt-2 italic">Prototipo diseñado para incubación estratégica</p>
     </footer>
 
-    <div class="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50">
-        <elevenlabs-convai agent-id="agent_9601kcrjbe74f08bhzgewfa2fcxw"></elevenlabs-convai>
-        <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <div class="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50 w-[calc(100%-2rem)] max-w-sm">
+        <div class="chat-demo rounded-3xl p-4 shadow-2xl">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Conversando con Irenia</p>
+                </div>
+                <i class="fas fa-comments text-slate-400 text-xs"></i>
+            </div>
+            <div class="space-y-2 min-h-[10rem] relative">
+                <div class="chat-bubble bubble-1 chat-user rounded-2xl px-3 py-2 text-xs sm:text-sm max-w-[85%] ml-auto">
+                    Irenia, hoy me dio ansiedad y pedi comida rapida.
+                </div>
+                <div class="chat-bubble bubble-2 chat-irenia rounded-2xl px-3 py-2 text-xs sm:text-sm max-w-[85%]">
+                    Tranquila. Hagamos una cena de rescate en 10 min: tortilla + tomate + agua.
+                </div>
+                <div class="chat-bubble bubble-3 chat-user rounded-2xl px-3 py-2 text-xs sm:text-sm max-w-[85%] ml-auto">
+                    Y manana como retomo el plan?
+                </div>
+                <div class="chat-bubble bubble-4 chat-irenia rounded-2xl px-3 py-2 text-xs sm:text-sm max-w-[85%]">
+                    Desayuno simple + caminata de 12 min. Te escribo a las 8 para acompanarte.
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>
