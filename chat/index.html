@@ -29,6 +29,38 @@
         @media (max-width: 767px) {
             #desktop-sidebar-toggle { display: none; }
         }
+        @media (max-width: 767px) {
+            body {
+                height: 100svh;
+                min-height: 100svh;
+                overflow: hidden;
+            }
+            main.chat-view {
+                min-height: 0;
+            }
+            #conversation-history {
+                overscroll-behavior-y: contain;
+                -webkit-overflow-scrolling: touch;
+            }
+            footer {
+                position: sticky;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+            #desktop-sidebar-toggle {
+                display: flex !important;
+                top: calc(env(safe-area-inset-top) + 0.35rem);
+                left: 0.65rem;
+                width: 2.2rem;
+                height: 2.2rem;
+                justify-content: center;
+                border-radius: 0.7rem;
+                background: rgba(15, 23, 42, 0.88);
+                border: 1px solid rgba(148, 163, 184, 0.35);
+                color: #f8fafc;
+            }
+        }
         @media (min-width: 768px) {
             #mobile-sidebar-close { display: none; }
         }
