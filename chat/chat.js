@@ -13,7 +13,8 @@ const chatSearch = document.getElementById('chat-search');
 const clearChatsBtn = document.getElementById('clear-chats-btn');
 
 const sidebar = document.getElementById('sidebar');
-const sidebarToggle = document.getElementById('sidebar-toggle');
+const desktopSidebarToggle = document.getElementById('desktop-sidebar-toggle');
+const mobileSidebarClose = document.getElementById('mobile-sidebar-close');
 const sidebarBackdrop = document.getElementById('sidebar-backdrop');
 
 const settingsPanel = document.getElementById('settings-panel');
@@ -232,7 +233,9 @@ function renderMessages() {
         conversationTrack.appendChild(item);
     });
 
-    chatSection.scrollTop = chatSection.scrollHeight;
+    setTimeout(() => {
+        history.scrollTop = history.scrollHeight;
+    }, 10);
 }
 
 function appendMessage(role, text, persist = true) {
@@ -243,7 +246,9 @@ function appendMessage(role, text, persist = true) {
     item.className = `p-4 rounded-2xl max-w-[85%] ${role === 'user' ? 'bg-blue-600 self-end text-white ml-auto' : 'bg-slate-800 self-start text-slate-200'}`;
     item.innerText = safeText;
     conversationTrack.appendChild(item);
-    chatSection.scrollTop = chatSection.scrollHeight;
+    setTimeout(() => {
+        history.scrollTop = history.scrollHeight;
+    }, 10);
 
     if (!persist) return;
 
@@ -548,20 +553,18 @@ clearChatsBtn.addEventListener('click', async () => {
     createConversation();
 });
 
-sidebarToggle.addEventListener('click', () => {
+desktopSidebarToggle.addEventListener('click', () => {
     const isMobile = window.matchMedia('(max-width: 767px)').matches;
 
     if (isMobile) {
-        const isClosed = sidebar.classList.contains('-translate-x-full');
-        if (isClosed) {
-            openSidebar();
-        } else {
-            closeSidebar();
-        }
-        return;
+        openSidebar();
+    } else {
+        sidebar.classList.toggle('desktop-collapsed');
     }
+});
 
-    sidebar.classList.toggle('desktop-collapsed');
+mobileSidebarClose.addEventListener('click', () => {
+    closeSidebar();
 });
 
 sidebarBackdrop.addEventListener('click', () => {

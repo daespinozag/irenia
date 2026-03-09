@@ -17,49 +17,62 @@
         .conversation-item-active { background: rgba(59,130,246,0.18); border: 1px solid rgba(59,130,246,0.35); }
         @media (min-width: 768px) {
             .sidebar-panel { width: 18rem; transition: width .2s ease; }
-            .sidebar-panel.desktop-collapsed { width: 0; border-right-color: transparent; }
+            .sidebar-panel.desktop-collapsed { width: 0; border-right-color: transparent; overflow: hidden; }
             .sidebar-panel.desktop-collapsed > * { opacity: 0; pointer-events: none; }
+        }
+        @media (max-width: 767px) {
+            #desktop-sidebar-toggle { display: none; }
+        }
+        @media (min-width: 768px) {
+            #mobile-sidebar-close { display: none; }
         }
         @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 30px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
     </style>
 </head>
-<body class="h-dvh overflow-hidden flex flex-col">
-    <nav class="glass-nav h-14 sm:h-16 px-4 sm:px-6 flex justify-between items-center z-50">
-        <div class="flex items-center gap-3">
-            <button id="sidebar-toggle" class="text-slate-300 hover:text-white transition"><i class="fas fa-bars"></i></button>
-            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center"><i class="fas fa-robot text-white text-xs"></i></div>
-            <h1 class="font-bold text-white italic tracking-tighter">IRE<span class="text-blue-500">NIA</span> PRO</h1>
+<body class="h-dvh overflow-hidden flex">
+    <aside id="sidebar" class="sidebar-panel w-72 max-w-[85vw] absolute md:relative inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-out flex flex-col">
+        <div class="p-4 border-b border-white/10 space-y-3">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-slate-100 font-semibold text-sm">Conversaciones</h2>
+                <button id="mobile-sidebar-close" class="text-slate-300 hover:text-white transition"><i class="fas fa-times"></i></button>
+            </div>
+            <button id="new-chat-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2.5 px-3 rounded-xl font-semibold transition">
+                <i class="fas fa-plus mr-2"></i>Nuevo chat
+            </button>
+            <div class="relative">
+                <i class="fas fa-search text-slate-500 absolute left-3 top-1/2 -translate-y-1/2 text-sm"></i>
+                <input id="chat-search" type="text" placeholder="Buscar conversaciones" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-sm text-slate-100 outline-none focus:border-blue-500" />
+            </div>
         </div>
-        <div class="flex items-center gap-4">
-            <button id="settings-toggle" class="text-slate-400 hover:text-white transition"><i class="fas fa-sliders-h"></i></button>
-            <button id="logout-btn" class="text-slate-500 hover:text-red-400 transition"><i class="fas fa-power-off"></i></button>
-        </div>
-    </nav>
+        <div id="conversation-list" class="flex-1 overflow-y-auto p-3 space-y-2"></div>
+    </aside>
 
-    <main class="chat-view flex-1 min-h-0 relative flex overflow-hidden pb-[140px] sm:pb-[160px]">
-        <div id="sidebar-backdrop" class="hidden absolute inset-0 bg-black/60 z-30"></div>
+    <div class="flex-1 min-w-0 flex flex-col">
+        <nav class="glass-nav shrink-0 h-14 sm:h-16 px-4 sm:px-6 flex justify-between items-center z-50">
+            <div class="flex items-center gap-3">
+                <button id="desktop-sidebar-toggle" class="text-slate-300 hover:text-white transition"><i class="fas fa-bars"></i></button>
+                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center"><i class="fas fa-robot text-white text-xs"></i></div>
+                <h1 class="font-bold text-white italic tracking-tighter">IRE<span class="text-blue-500">NIA</span> PRO</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <button id="settings-toggle" class="text-slate-400 hover:text-white transition"><i class="fas fa-sliders-h"></i></button>
+                <button id="logout-btn" class="text-slate-500 hover:text-red-400 transition"><i class="fas fa-power-off"></i></button>
+            </div>
+        </nav>
 
-        <aside id="sidebar" class="sidebar-panel w-72 max-w-[85vw] absolute md:relative inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-out flex flex-col">
-            <div class="p-4 border-b border-white/10 space-y-3">
-                <button id="new-chat-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2.5 px-3 rounded-xl font-semibold transition">
-                    <i class="fas fa-plus mr-2"></i>Nuevo chat
-                </button>
-                <div class="relative">
-                    <i class="fas fa-search text-slate-500 absolute left-3 top-1/2 -translate-y-1/2 text-sm"></i>
-                    <input id="chat-search" type="text" placeholder="Buscar conversaciones" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-sm text-slate-100 outline-none focus:border-blue-500" />
+        <main class="chat-view flex-1 min-h-0 relative flex">
+            <div id="sidebar-backdrop" class="hidden absolute inset-0 bg-black/60 z-30"></div>
+
+            <section id="chat-section" class="flex-1 min-w-0 flex flex-col">
+                <div class="shrink-0 pt-4 sm:pt-5 pb-3 sm:pb-4 px-3 sm:px-5 md:px-6">
+                    <p id="status-text" class="text-blue-500 font-bold text-[10px] uppercase tracking-[0.3em] text-center">Motor Listo</p>
                 </div>
-            </div>
-            <div id="conversation-list" class="flex-1 overflow-y-auto p-3 space-y-2"></div>
-        </aside>
+                <div id="conversation-history" class="flex-1 overflow-y-auto px-3 sm:px-5 md:px-6 pb-3 sm:pb-5 md:pb-6">
+                    <div id="conversation-track" class="w-full max-w-3xl mx-auto flex flex-col space-y-3 sm:space-y-4"></div>
+                </div>
+            </section>
 
-        <section id="chat-section" class="flex-1 min-w-0 min-h-0 overflow-y-auto flex flex-col">
-            <div id="conversation-history" class="w-full h-full p-3 sm:p-5 md:p-6">
-                <p id="status-text" class="text-blue-500 font-bold text-[10px] uppercase tracking-[0.3em] text-center mb-3 sm:mb-4">Motor Listo</p>
-                <div id="conversation-track" class="w-full max-w-3xl mx-auto flex flex-col space-y-3 sm:space-y-4"></div>
-            </div>
-        </section>
-
-        <aside id="settings-panel" class="settings-panel w-80 max-w-[90vw] absolute inset-y-0 right-0 z-40 transform translate-x-full transition-transform duration-200 ease-out flex flex-col">
+            <aside id="settings-panel" class="settings-panel w-80 max-w-[90vw] absolute inset-y-0 right-0 z-40 transform translate-x-full transition-transform duration-200 ease-out flex flex-col">
             <div class="p-4 border-b border-white/10 flex items-center justify-between">
                 <h2 class="font-semibold text-white">Configuracion</h2>
                 <button id="settings-close" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
@@ -90,20 +103,21 @@
         </aside>
     </main>
 
-    <footer class="shrink-0 fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-sm border-t border-white/5 p-3 sm:p-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] z-50">
-        <div class="w-full max-w-3xl mx-auto flex flex-col items-center gap-3">
-            <button id="end-conversation-btn" class="text-xs sm:text-sm px-4 py-2 rounded-xl border border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 transition">
-                <i class="fas fa-stop-circle mr-2"></i>Terminar conversacion
-            </button>
-            <form id="chat-form" class="w-full max-w-2xl flex gap-2 sm:gap-3 items-center">
-                <button type="button" id="voice-trigger" class="bg-blue-600 h-11 w-11 sm:h-12 sm:w-12 rounded-full flex items-center justify-center shrink-0 hover:bg-blue-500 transition-all shadow-lg">
-                    <i class="fas fa-microphone text-white text-base sm:text-lg"></i>
+        <footer class="shrink-0 bg-slate-950/90 backdrop-blur-sm border-t border-white/5 p-3 sm:p-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] z-50">
+            <div class="w-full max-w-3xl mx-auto flex flex-col items-center gap-3">
+                <button id="end-conversation-btn" class="text-xs sm:text-sm px-4 py-2 rounded-xl border border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 transition">
+                    <i class="fas fa-stop-circle mr-2"></i>Terminar conversacion
                 </button>
-                <input type="text" id="text-input" placeholder="Escribe tu consulta..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 text-sm sm:text-base text-white outline-none focus:border-blue-500">
-                <button type="submit" class="bg-blue-600 h-11 w-11 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0"><i class="fas fa-paper-plane text-white"></i></button>
-            </form>
-        </div>
-    </footer>
+                <form id="chat-form" class="w-full max-w-2xl flex gap-2 sm:gap-3 items-center">
+                    <button type="button" id="voice-trigger" class="bg-blue-600 h-11 w-11 sm:h-12 sm:w-12 rounded-full flex items-center justify-center shrink-0 hover:bg-blue-500 transition-all shadow-lg">
+                        <i class="fas fa-microphone text-white text-base sm:text-lg"></i>
+                    </button>
+                    <input type="text" id="text-input" placeholder="Escribe tu consulta..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 text-sm sm:text-base text-white outline-none focus:border-blue-500">
+                    <button type="submit" class="bg-blue-600 h-11 w-11 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0"><i class="fas fa-paper-plane text-white"></i></button>
+                </form>
+            </div>
+        </footer>
+    </div>
 
     <script src="auth.js"></script>
     <script src="https://unpkg.com/@11labs/client@0.2.0/dist/lib.umd.js"></script>
