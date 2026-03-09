@@ -1,4 +1,6 @@
+const chatSection = document.getElementById('chat-section');
 const history = document.getElementById('conversation-history');
+const conversationTrack = document.getElementById('conversation-track');
 const chatForm = document.getElementById('chat-form');
 const textInput = document.getElementById('text-input');
 const voiceBtn = document.getElementById('voice-trigger');
@@ -195,8 +197,15 @@ function renderConversations() {
         deleteBtn.dataset.id = item.id;
         deleteBtn.innerText = 'Eliminar';
 
+        const renameBtn = document.createElement('button');
+        renameBtn.className = 'text-slate-500 hover:text-blue-300 text-xs px-2 py-1 rounded-lg hover:bg-blue-500/10 transition';
+        renameBtn.dataset.action = 'rename';
+        renameBtn.dataset.id = item.id;
+        renameBtn.innerText = 'Renombrar';
+
         contentBtn.appendChild(title);
         contentBtn.appendChild(meta);
+        actions.appendChild(renameBtn);
         actions.appendChild(deleteBtn);
         row.appendChild(contentBtn);
         row.appendChild(actions);
@@ -205,14 +214,14 @@ function renderConversations() {
 }
 
 function renderMessages() {
-    history.innerHTML = '';
+    conversationTrack.innerHTML = '';
 
     const active = getActiveConversation();
     if (!active || !active.messages.length) {
         const empty = document.createElement('p');
         empty.className = 'text-slate-500 text-sm text-center mt-10';
         empty.innerText = 'Inicia una conversacion para guardar memoria del chat.';
-        history.appendChild(empty);
+        conversationTrack.appendChild(empty);
         return;
     }
 
@@ -220,10 +229,10 @@ function renderMessages() {
         const item = document.createElement('div');
         item.className = `p-4 rounded-2xl max-w-[85%] ${message.role === 'user' ? 'bg-blue-600 self-end text-white ml-auto' : 'bg-slate-800 self-start text-slate-200'}`;
         item.innerText = message.text;
-        history.appendChild(item);
+        conversationTrack.appendChild(item);
     });
 
-    history.scrollTop = history.scrollHeight;
+    chatSection.scrollTop = chatSection.scrollHeight;
 }
 
 function appendMessage(role, text, persist = true) {
@@ -233,8 +242,8 @@ function appendMessage(role, text, persist = true) {
     const item = document.createElement('div');
     item.className = `p-4 rounded-2xl max-w-[85%] ${role === 'user' ? 'bg-blue-600 self-end text-white ml-auto' : 'bg-slate-800 self-start text-slate-200'}`;
     item.innerText = safeText;
-    history.appendChild(item);
-    history.scrollTop = history.scrollHeight;
+    conversationTrack.appendChild(item);
+    chatSection.scrollTop = chatSection.scrollHeight;
 
     if (!persist) return;
 
@@ -286,6 +295,23 @@ function removeConversation(id) {
         state.activeConversationId = state.conversations[0].id;
         renderMessages();
     }
+
+    saveState();
+    renderConversations();
+}
+
+function renameConversation(id) {
+    const conversation = state.conversations.find((item) => item.id === id);
+    if (!conversation) return;
+
+    const nextTitle = window.prompt('Nuevo nombre del chat:', conversation.title || 'Nuevo chat');
+    if (nextTitle === null) return;
+
+    const cleanTitle = nextTitle.trim();
+    if (!cleanTitle) return;
+
+    conversation.title = cleanTitle.length > 42 ? `${cleanTitle.slice(0, 42)}...` : cleanTitle;
+    conversation.updatedAt = Date.now();
 
     saveState();
     renderConversations();
@@ -492,6 +518,11 @@ conversationList.addEventListener('click', async (event) => {
         await endCurrentSession();
         removeConversation(id);
         renderMessages();
+        return;
+    }
+
+    if (action === 'rename') {
+        renameConversation(id);
     }
 });
 

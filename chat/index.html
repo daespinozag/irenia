@@ -36,7 +36,7 @@
         </div>
     </nav>
 
-    <main class="chat-view flex-1 min-h-0 relative flex overflow-hidden">
+    <main class="chat-view flex-1 min-h-0 relative flex overflow-hidden pb-[140px] sm:pb-[160px]">
         <div id="sidebar-backdrop" class="hidden absolute inset-0 bg-black/60 z-30"></div>
 
         <aside id="sidebar" class="sidebar-panel w-72 max-w-[85vw] absolute md:relative inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-out flex flex-col">
@@ -52,23 +52,11 @@
             <div id="conversation-list" class="flex-1 overflow-y-auto p-3 space-y-2"></div>
         </aside>
 
-        <section class="flex-1 min-w-0 min-h-0 overflow-hidden flex flex-col p-3 sm:p-5 md:p-6">
-            <p id="status-text" class="text-blue-500 font-bold text-[10px] uppercase tracking-[0.3em] text-center mb-3 sm:mb-4">Motor Listo</p>
-            <div id="conversation-history" class="w-full max-w-3xl mx-auto flex-1 min-h-0 overflow-y-auto mb-3 sm:mb-4 px-1 sm:px-4 space-y-3 sm:space-y-4 flex flex-col"></div>
-            <div class="w-full max-w-3xl mx-auto shrink-0 flex flex-col items-center gap-3 sm:gap-4">
-                <div id="voice-trigger" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-blue-600 rounded-full flex items-center justify-center shadow-lg cursor-pointer transition-all">
-                    <i class="fas fa-microphone text-white text-xl sm:text-2xl md:text-3xl"></i>
-                </div>
-                <button id="end-conversation-btn" class="text-xs sm:text-sm px-4 py-2 rounded-xl border border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 transition">
-                    <i class="fas fa-stop-circle mr-2"></i>Terminar conversacion
-                </button>
+        <section id="chat-section" class="flex-1 min-w-0 min-h-0 overflow-y-auto flex flex-col">
+            <div id="conversation-history" class="w-full h-full p-3 sm:p-5 md:p-6">
+                <p id="status-text" class="text-blue-500 font-bold text-[10px] uppercase tracking-[0.3em] text-center mb-3 sm:mb-4">Motor Listo</p>
+                <div id="conversation-track" class="w-full max-w-3xl mx-auto flex flex-col space-y-3 sm:space-y-4"></div>
             </div>
-            <footer class="shrink-0 sticky bottom-0 mt-3 sm:mt-4 bg-slate-950/80 border border-white/5 rounded-2xl p-3 sm:p-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
-                <form id="chat-form" class="w-full max-w-2xl mx-auto flex gap-2 sm:gap-3">
-                    <input type="text" id="text-input" placeholder="Escribe tu consulta..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 text-sm sm:text-base text-white outline-none focus:border-blue-500">
-                    <button type="submit" class="bg-blue-600 h-11 w-11 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0"><i class="fas fa-paper-plane text-white"></i></button>
-                </form>
-            </footer>
         </section>
 
         <aside id="settings-panel" class="settings-panel w-80 max-w-[90vw] absolute inset-y-0 right-0 z-40 transform translate-x-full transition-transform duration-200 ease-out flex flex-col">
@@ -101,6 +89,21 @@
             </div>
         </aside>
     </main>
+
+    <footer class="shrink-0 fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-sm border-t border-white/5 p-3 sm:p-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] z-50">
+        <div class="w-full max-w-3xl mx-auto flex flex-col items-center gap-3">
+            <button id="end-conversation-btn" class="text-xs sm:text-sm px-4 py-2 rounded-xl border border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 transition">
+                <i class="fas fa-stop-circle mr-2"></i>Terminar conversacion
+            </button>
+            <form id="chat-form" class="w-full max-w-2xl flex gap-2 sm:gap-3 items-center">
+                <button type="button" id="voice-trigger" class="bg-blue-600 h-11 w-11 sm:h-12 sm:w-12 rounded-full flex items-center justify-center shrink-0 hover:bg-blue-500 transition-all shadow-lg">
+                    <i class="fas fa-microphone text-white text-base sm:text-lg"></i>
+                </button>
+                <input type="text" id="text-input" placeholder="Escribe tu consulta..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 text-sm sm:text-base text-white outline-none focus:border-blue-500">
+                <button type="submit" class="bg-blue-600 h-11 w-11 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0"><i class="fas fa-paper-plane text-white"></i></button>
+            </form>
+        </div>
+    </footer>
 
     <script src="auth.js"></script>
     <script src="https://unpkg.com/@11labs/client@0.2.0/dist/lib.umd.js"></script>
